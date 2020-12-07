@@ -110,4 +110,28 @@ router.post('/updateStore', (req, res) => {
   })
 })
 
+// 将修改信息添加到库存信息变更表中
+router.post('/addStoreMsg', (req, res) => {
+  let sql = 'insert into smessage(sname,scountreduce,scountadd,sdate,sdesc) values ?'
+  const params = req.body
+  let curArr = []
+  let valArr = []
+  let parlenght = params.length
+  for (let i = 0; i < parlenght; i++) {
+    for (let index in params[i]) {
+      curArr.push(params[i][index])
+    }
+    valArr.push(curArr)
+    curArr = []
+  }
+  conn.query(sql, [valArr], function (err, result) {
+    if (err) {
+      console.log(err)
+    }
+    if (result) {
+      jsonWrite(res, result)
+    }
+  })
+})
+
 module.exports = router
