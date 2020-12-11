@@ -128,4 +128,17 @@ router.post('/updateSell', (req, res) => {
   })
 })
 
+// 获取库存信息表的数据
+router.get('/getSellStoreMsg', (req, res) => {
+  const sql = 'select * from smessage'
+  conn.query(sql, [], function (err, result) {
+    if (err) {
+      console.log(err)
+    }
+    if (result) {
+      jsonWrite(res, result)
+    }
+  })
+})
+
 module.exports = router
